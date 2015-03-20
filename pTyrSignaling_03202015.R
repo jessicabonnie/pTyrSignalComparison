@@ -1,7 +1,7 @@
 ptyr <- read.csv("/Users/yizhuoma/Desktop/312/barcode.csv")
 
 statuslist <- unique(ptyr$Status)
-
+statuslist<- statuslist[statuslist != "Total"]
 
 titleprefixes <-c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk")
 blank.frame <-data.frame(Int_n_Bk_n_A = numeric(), Int_n_Bk = numeric(), Int_n_A_n_Bk= numeric(), Sample.ID = numeric(), Gel = numeric())
