@@ -1,4 +1,6 @@
-ptyr <- read.csv("/Users/yizhuoma/Desktop/312/barcode.csv")
+#wkdir <- "/Users/yizhuoma/Desktop/312/"
+wkdir <- "~/cphg/pTyrSignalComparison/"
+ptyr <- read.csv(paste0(wkdir,"barcode.csv"))
 
 statuslist <- unique(ptyr$Status)
 statuslist<- statuslist[statuslist != "Total"]
@@ -19,7 +21,7 @@ for (status in statuslist){
   }
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-  pdf(paste0("/Users/yizhuoma/Desktop/312/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  pdf(paste0(wkdir,"pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
   plot(filled.frame[,c(titleprefix)] ~ as.factor(filled.frame$Sample.ID),ylab=paste("Normalized Intensity",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
   points(filled.frame[,titleprefix] ~ as.factor(filled.frame$Sample.ID),col=filled.frame$Gel)
   
