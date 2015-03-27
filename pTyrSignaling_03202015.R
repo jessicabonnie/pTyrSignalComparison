@@ -31,30 +31,35 @@ whole.frame <- blank.frame
 for (status in statuslist){
   filled.frame <- blank.frame
   status.frame <- ptyr[ptyr$Status==status,]
+  
+  #Add a gel number column while munging the table
   for (i in seq(1,gelcount)){ 
     subtable <- status.frame[,c(paste0(titleprefixes,".G",i),"Sample.ID", "Family_ID","Status")]
     subtable$Gel <- i
     colnames(subtable) <- colnames(filled.frame)
-    head(subtable)
     filled.frame <- rbind(filled.frame,subtable)
     whole.frame <-rbind(whole.frame,subtable)
   }
-  for (i in seq(1,3)){
-    titleprefix <- titleprefixes[i]
-  #pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
-      #width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  
+  #create a vector to indicate pch values during graphing based on Family ID
   pch.list <- rep(0, length(filled.frame$Family_ID))
   pchselection <- c(0:length(filled.frame$Family_ID))
   pch.list <- pchselection[as.numeric(as.factor(filled.frame$Family_ID))]
-  plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
-       ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
-  points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),
-         col=filled.frame$Gel,pch=pch.list)
   
-  legend('topright',c(paste("Gel",c(unique(filled.frame$Gel))),unique(filled.frame$Family_ID)),
-         col=c(unique(filled.frame$Gel),rep("black",times=gelcount)),
-         cex=.7,pch=c(rep(19,times=gelcount),unique(pch.list)),ncol=2)
-  #dev.off()
+  
+  for (i in seq(1,3)){
+    titleprefix <- titleprefixes[i]
+    pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
+        width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+    
+    plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
+         ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
+    points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),
+           col=filled.frame$Gel,pch=pch.list)
+    legend('topright',c(paste("Gel",c(unique(filled.frame$Gel))),unique(filled.frame$Family_ID)),
+           col=c(unique(filled.frame$Gel),rep("black",times=gelcount)),
+           cex=.7,pch=c(rep(19,times=gelcount),unique(pch.list)),ncol=2)
+  dev.off()
   }
 }
 
