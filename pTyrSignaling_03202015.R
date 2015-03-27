@@ -10,6 +10,9 @@ dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
 #read in data
 ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"),header=TRUE)
 
+#Make changes to master table
+ptyr$Family_ID <- as.character(ptyr$Family_ID)
+ptyr$Analytic_ID <- as.character(ptyr$Analytic_ID)
 #ptyr <- ptyr[ptyr$Status!='Total',]
 #ptyr$Status <-factor(ptyr$Status)
 statuslist <- unique(ptyr$Status)
