@@ -8,7 +8,7 @@ wkdir <- "~/cphg/pTyrSignalComparison/"
 dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
 
 #read in data
-ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"))
+ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"),header=TRUE)
 
 #ptyr <- ptyr[ptyr$Status!='Total',]
 #ptyr$Status <-factor(ptyr$Status)
