@@ -10,8 +10,8 @@ dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
 #read in data
 ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"))
 
-ptyr <- ptyr[ptyr$Status!='Total',]
-ptyr$Status <-factor(ptyr$Status)
+#ptyr <- ptyr[ptyr$Status!='Total',]
+#ptyr$Status <-factor(ptyr$Status)
 statuslist <- unique(ptyr$Status)
 
 #statuslist<- statuslist[statuslist != "Total"]
