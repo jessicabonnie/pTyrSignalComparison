@@ -54,8 +54,8 @@ for (status in statuslist){
   status.frame <- whole.frame[whole.frame$Status==status,]
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-    #pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
-        #width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+    pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
+        width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
     
     plot(log(status.frame[,c(titleprefix)],base=2) ~ as.factor(status.frame$Sample.ID),
          ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
@@ -64,15 +64,15 @@ for (status in statuslist){
     legend('topright',c(paste("Gel",c(unique(status.frame$Gel))),unique(status.frame$Family_ID)),
            col=c(unique(status.frame$Gel),rep("black",times=gelcount)),
            cex=.7,pch=c(rep(19,times=gelcount),unique(pch.list)),ncol=2)
-  #dev.off()
+  dev.off()
   }
 }
 
 
-
+#Boxplot graphs PER SAMPLE
 samplelist <- unique(whole.frame$Sample.ID)
 for (sample in samplelist){
-  sample.frame <- whole.frame[whole.frame$Sample.ID==sample,]
+  #sample.frame <- whole.frame[whole.frame$Sample.ID==sample,]
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
     
