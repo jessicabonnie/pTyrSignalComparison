@@ -59,14 +59,6 @@ for (sample in samplelist){
          main=paste("pTyr Signalling - Sample",sample))
     points(log(subplot[,c(titleprefix)],base=2) ~ as.factor(subplot$Status),col=subplot$Gel)
     legend('topright',paste("Gel",c(unique(subplot$Gel))),col=unique(subplot$Gel),pch=1,cex=.7)
-    #plot(log(whole.frame[which(whole.frame$Sample.ID==sample),c(titleprefix)],base=2) ~ as.factor(whole.frame[which(whole.frame$Sample.ID==sample),]$Status))
-    #with(subset(whole.frame,Sample.ID==sample), plot(log(c(titleprefix),base=2) ~ as.factor(Status),
-    #                                                  ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Status",
-    #                                                  main=paste("pTyr Signalling - Sample",sample)))
-    #with(whole.frame, plot(log(titleprefix,base=2) ~ as.factor(Sample.ID==sample)$Status),ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
-    #points(log(whole.frame[,titleprefix],base=2) ~ as.factor(with(whole.frame,Sample.ID==sample)$Status),col=whole.frame$Gel)
-    
-    #legend('topright',paste("Gel",c(unique(whole.frame$Gel))),col=unique(whole.frame$Gel),pch=1,cex=.7)
     dev.off()
   }
 }
