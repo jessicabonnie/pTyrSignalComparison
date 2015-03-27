@@ -38,12 +38,15 @@ for (status in statuslist){
   }
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-  pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
+      width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
   plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
        ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
-  points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),col=filled.frame$Gel,pch=1)
+  points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),col=filled.frame$Gel,pch=as.numeric(as.factor(filled.frame$Family_ID)))
   
-  legend('topright',paste("Gel",c(unique(filled.frame$Gel))),col=unique(filled.frame$Gel),pch=1,cex=.7)
+  legend('topright',c(paste("Gel",c(unique(filled.frame$Gel))),unique(filled.frame$Family_ID)),
+         col=c(unique(filled.frame$Gel),rep("black",times=length(unique(filled.frame$Gel)))),
+         cex=.7,pch=c(rep(19,times=length(unique(filled.frame$Gel))),as.numeric(as.factor(filled.frame$Family_ID)))))
   dev.off()
   }
 }
