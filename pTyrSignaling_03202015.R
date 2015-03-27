@@ -48,20 +48,21 @@ for (status in statuslist){
   pch.list <- rep(0, length(whole.frame$Family_ID))
   pchselection <- c(0:length(whole.frame$Family_ID))
   pch.list <- pchselection[as.numeric(as.factor(whole.frame$Family_ID))]
-  
+
+#Boxplot graphs PER STATUS
 for (status in statuslist){
-  filled.frame <- whole.frame[whole.frame$Status==status,]
+  status.frame <- whole.frame[whole.frame$Status==status,]
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
     #pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
         #width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
     
-    plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
+    plot(log(status.frame[,c(titleprefix)],base=2) ~ as.factor(status.frame$Sample.ID),
          ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
-    points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),
-           col=filled.frame$Gel,pch=pch.list)
-    legend('topright',c(paste("Gel",c(unique(filled.frame$Gel))),unique(filled.frame$Family_ID)),
-           col=c(unique(filled.frame$Gel),rep("black",times=gelcount)),
+    points(log(status.frame[,titleprefix],base=2) ~ as.factor(status.frame$Sample.ID),
+           col=status.frame$Gel,pch=pch.list)
+    legend('topright',c(paste("Gel",c(unique(status.frame$Gel))),unique(status.frame$Family_ID)),
+           col=c(unique(status.frame$Gel),rep("black",times=gelcount)),
            cex=.7,pch=c(rep(19,times=gelcount),unique(pch.list)),ncol=2)
   #dev.off()
   }
