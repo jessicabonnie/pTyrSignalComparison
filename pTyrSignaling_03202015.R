@@ -26,7 +26,9 @@ statuslist <- unique(ptyr$Status)
 
 titleprefixes <-c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk")
 blank.frame <-data.frame(Int_n_Bk_n_A = numeric(), Int_n_Bk = numeric(), Int_n_A_n_Bk= numeric(), 
-                         Sample.ID = numeric(), Family_ID = character(), Status=character(), Gel = numeric())
+                         Sample.ID = numeric(), Family_ID = character(), Analytic_ID = character(),
+                         Status=character(), Gel = numeric())
+non_intensity_cols <- c("Sample.ID", "Family_ID","Analytic_ID","Status")
 
 #Rearrange Table into desired form
 
@@ -36,7 +38,7 @@ for (status in statuslist){
   
   #Add a gel number column while munging the table
   for (i in seq(1,gelcount)){
-    gel.frame <- ptyr[ptyr$Status==status,c(paste0(titleprefixes,".G",i),"Sample.ID", "Family_ID","Status")]
+    gel.frame <- ptyr[ptyr$Status==status,c(paste0(titleprefixes,".G",i),non_intensity_cols)]
     gel.frame$Gel <- i
     colnames(gel.frame) <- colnames(whole.frame)
     whole.frame <-rbind(whole.frame,gel.frame)
