@@ -1,8 +1,13 @@
-#data and result directories are expected within the work directory
-#wkdir <- "/Users/yizhuoma/Desktop/312/"
+#data directory is expected within the work directory
 
+#work directory variable
+#wkdir <- "/Users/yizhuoma/Desktop/312/"
 wkdir <- "~/cphg/pTyrSignalComparison/"
 
+#create results folder
+dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
+
+#read in data
 ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"))
 
 ptyr <- ptyr[ptyr$Status!='Total',]
