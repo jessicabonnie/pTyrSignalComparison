@@ -4,6 +4,9 @@
 #wkdir <- "/Users/yizhuoma/Desktop/312/"
 wkdir <- "~/cphg/pTyrSignalComparison/"
 
+#How Many Gels?
+gelcount=8
+
 #create results folder
 dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
 
@@ -28,7 +31,7 @@ whole.frame <- blank.frame
 for (status in statuslist){
   filled.frame <- blank.frame
   status.frame <- ptyr[ptyr$Status==status,]
-  for (i in seq(1,8)){ 
+  for (i in seq(1,gelcount)){ 
     subtable <- status.frame[,c(paste0(titleprefixes,".G",i),"Sample.ID", "Family_ID","Status")]
     subtable$Gel <- i
     colnames(subtable) <- colnames(filled.frame)
@@ -38,16 +41,20 @@ for (status in statuslist){
   }
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-  pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
-      width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  #pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),
+      #width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  pch.list <- rep(0, length(filled.frame$Family_ID))
+  pchselection <- c(0:length(filled.frame$Family_ID))
+  pch.list <- pchselection[as.numeric(as.factor(filled.frame$Family_ID))]
   plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
        ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
-  points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),col=filled.frame$Gel,pch=as.numeric(as.factor(filled.frame$Family_ID)))
+  points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),
+         col=filled.frame$Gel,pch=pch.list)
   
   legend('topright',c(paste("Gel",c(unique(filled.frame$Gel))),unique(filled.frame$Family_ID)),
-         col=c(unique(filled.frame$Gel),rep("black",times=length(unique(filled.frame$Gel)))),
-         cex=.7,pch=c(rep(19,times=length(unique(filled.frame$Gel))),as.numeric(as.factor(filled.frame$Family_ID)))))
-  dev.off()
+         col=c(unique(filled.frame$Gel),rep("black",times=gelcount)),
+         cex=.7,pch=c(rep(19,times=gelcount),unique(pch.list)),ncol=2)
+  #dev.off()
   }
 }
 
