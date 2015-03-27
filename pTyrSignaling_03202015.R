@@ -1,6 +1,9 @@
+#data and result directories are expected within the work directory
 #wkdir <- "/Users/yizhuoma/Desktop/312/"
-wkdir <- "~/cphg/pTyrSignalComparison/data/"
-ptyr <- read.csv(paste0(wkdir,"barcode.csv"))
+
+wkdir <- "~/cphg/pTyrSignalComparison/"
+
+ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"))
 
 ptyr <- ptyr[ptyr$Status!='Total',]
 ptyr$Status <-factor(ptyr$Status)
@@ -27,13 +30,13 @@ for (status in statuslist){
   }
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-  #pdf(paste0(wkdir,"pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
+  pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_",status,titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling -",status,titleprefix))
   plot(log(filled.frame[,c(titleprefix)],base=2) ~ as.factor(filled.frame$Sample.ID),
        ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Sample ID",main=paste("pTyr Signalling -",status))
   points(log(filled.frame[,titleprefix],base=2) ~ as.factor(filled.frame$Sample.ID),col=filled.frame$Gel,pch=1)
   
   legend('topright',paste("Gel",c(unique(filled.frame$Gel))),col=unique(filled.frame$Gel),pch=1,cex=.7)
-  #dev.off()
+  dev.off()
   }
 }
 
@@ -44,7 +47,7 @@ for (sample in samplelist){
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
 
-    pdf(paste0(wkdir,"pTyrSignalling_Boxplots_Sample",sample,"_",titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling - Sample",sample,titleprefix))
+    pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_Sample",sample,"_",titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling - Sample",sample,titleprefix))
     subplot <- whole.frame[whole.frame$Sample.ID==sample,c(titleprefix,"Sample.ID","Status","Gel")]
     plot(log(subplot[,c(titleprefix)],base=2) ~ as.factor(subplot$Status),
          ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Status",
