@@ -72,16 +72,24 @@ for (status in statuslist){
 
 samplelist <- unique(whole.frame$Sample.ID)
 for (sample in samplelist){
+  sample.frame <- whole.frame[whole.frame$Sample.ID==sample,]
   for (i in seq(1,3)){
     titleprefix <- titleprefixes[i]
-
-    pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_Sample",sample,"_",titleprefix,".pdf"),width=11,height=8, title=paste("pTyr Signalling - Sample",sample,titleprefix))
+    
+    pdf(paste0(wkdir,"results/pTyrSignalling_Boxplots_Sample",sample,"_",titleprefix,".pdf"),
+        width=11,height=8, title=paste("pTyr Signalling - Sample",sample,titleprefix))
     subplot <- whole.frame[whole.frame$Sample.ID==sample,c(titleprefix,"Sample.ID","Status","Gel")]
-    plot(log(subplot[,c(titleprefix)],base=2) ~ as.factor(subplot$Status),
+    #plot(log(sample.frame[,c(titleprefix)],base=2) ~ as.factor(sample.frame$Status),
+    plot(log(whole.frame[whole.frame$Sample.ID==sample,c(titleprefix)],base=2) ~ 
+           as.factor(whole.frame[whole.frame$Sample.ID==sample,]$Status),
          ylab=paste("log2(Normalized Intensity)",titleprefix), xlab="Status",
          main=paste("pTyr Signalling - Sample",sample))
-    points(log(subplot[,c(titleprefix)],base=2) ~ as.factor(subplot$Status),col=subplot$Gel)
-    legend('topright',paste("Gel",c(unique(subplot$Gel))),col=unique(subplot$Gel),pch=1,cex=.7)
+    #points(log(sample.frame[,c(titleprefix)],base=2) ~ as.factor(sample.frame$Status),col=sample.frame$Gel)
+    points(log(whole.frame[whole.frame$Sample.ID==sample,c(titleprefix)],base=2) ~ 
+             as.factor(whole.frame[whole.frame$Sample.ID==sample,]$Status),
+           col=whole.frame[whole.frame$Sample.ID==sample,]$Gel)
+    #legend('topright',paste("Gel",c(unique(sample.frame$Gel))),col=unique(sample.frame$Gel),pch=1,cex=.7)
+    legend('topright',paste("Gel",c(unique(whole.frame[whole.frame$Sample.ID==sample,]$Gel))),col=unique(whole.frame[whole.frame$Sample.ID==sample,]$Gel),pch=1,cex=.7)
     dev.off()
   }
 }
