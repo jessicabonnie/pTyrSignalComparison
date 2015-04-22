@@ -1,3 +1,5 @@
+#This script assumes that your working directory is the project folder containing the scripts and data folder.
+
 #install !!!! 1.9.5 !!!! (which is in development as of 4/13/15) - instructions to install here:
 # https://github.com/Rdatatable/data.table/wiki/Installation
 library(data.table)#v1.9.5+
@@ -5,17 +7,17 @@ library(data.table)#v1.9.5+
 #data directory is expected within the work directory
 
 #work directory variable
-wkdir <- "/Users/yizhuoma/pTyrSignalComparison/"
+#wkdir <- "/Users/yizhuoma/pTyrSignalComparison/"
 #wkdir <- "~/cphg/pTyrSignalComparison/"
 
 #How Many Gels?
 gelcount=8
 
 #create results folder
-dir.create(file.path(wkdir, "results"), showWarnings = FALSE)
+dir.create(file.path("results"), showWarnings = FALSE)
 
 #read in data
-ptyr <- read.csv(paste0(wkdir,"data/barcode.csv"),header=TRUE)
+ptyr <- read.csv("data/barcode.csv",header=TRUE)
 
 head(ptyr)
 
