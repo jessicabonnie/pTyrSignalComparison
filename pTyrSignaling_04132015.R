@@ -2,7 +2,7 @@
 
 #install !!!! 1.9.5 !!!! (which is in development as of 4/13/15) - instructions to install here:
 # https://github.com/Rdatatable/data.table/wiki/Installation
-library(data.table)#v1.9.5+
+#library(data.table)#v1.9.5+
 
 #data directory is expected within the work directory
 
@@ -42,10 +42,18 @@ non_intensity_cols <- c("Sample.ID", "Family_ID","Analytic_ID","Status")
 #prefixindices2<-grep(paste0("^",titleprefixes[2],"\\."),colnames(ptyr))
 #prefixindices3<-grep(paste0("^",titleprefixes[3],"\\."),colnames(ptyr))
 
-prefixindices=c()
-for (pre in 1:length(titleprefixes)){
-  prefixindices<-c(prefixindices,grep(paste0("^",titleprefixes[pre],"\\."),colnames(ptyr)))
+#prefixindices<-c()
+#for (pre in 1:length(titleprefixes)){
+#  prefixindices<-c(prefixindices,grep(paste0("^",titleprefixes[pre],"\\."),colnames(ptyr)))
+#}
+#prefixindices
+#longptyr<-melt(setDT(ptyr), id.vars = c("Sample.ID", "Family_ID","Analytic_ID","Status"), measure.vars =list(c(prefixindices1),c(prefixindices2),c(prefixindices3)) ,value.name=c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk"), variable.name='Gel')
+#View(longptyr)
+
+prefixindices <- list()
+  for (pre in 1:length(titleprefixes)){
+  prefixindices[[pre]] <- c(grep(paste0("^",titleprefixes[pre],"\\."),colnames(ptyr)))
 }
-prefixindices
-longptyr<-melt(setDT(ptyr), id.vars = c("Sample.ID", "Family_ID","Analytic_ID","Status"), measure.vars =list(c(prefixindices1),c(prefixindices2),c(prefixindices3)) ,value.name=c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk"), variable.name='Gel')
-View(longptyr)
+
+longptyr <- reshape(ptyr, direction='long', varying=prefixindices,v.names=titleprefixes,timevar='Gel')
+longptyr <- longptyr[order(longptyr$Status), ]
