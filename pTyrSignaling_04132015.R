@@ -10,6 +10,9 @@
 #wkdir <- "/Users/yizhuoma/pTyrSignalComparison/"
 #wkdir <- "~/cphg/pTyrSignalComparison/"
 
+#
+options(digits=20)
+
 #How Many Gels?
 gelcount=8
 
@@ -33,6 +36,7 @@ statuslist <- unique(ptyr$Status)
 
 titleprefixes <-c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk")
 non_intensity_cols <- c("Sample.ID", "Family_ID","Analytic_ID","Status")
+sample_id_cols <- c("Sample.ID", "Family_ID","Analytic_ID")
 
 #Rearrange Table into first desired form
 
@@ -57,3 +61,19 @@ prefixindices <- list()
 
 longptyr <- reshape(ptyr, direction='long', varying=prefixindices,v.names=titleprefixes,timevar='Gel')
 longptyr <- longptyr[order(longptyr$Status), ]
+
+View(longptyr)
+
+
+
+#wideptyr
+wideptyr<- reshape(ptyr, direction = 'wide', timevar = 'Status', idvar = sample_id_cols)
+
+wideptyr[wideptyr$Analytic_ID==44005001,c("Int_n_A_n_Bk.G2.Total")]
+
+
+
+write.table(wideptyr, file = "wideptyr.csv", sep = ",", col.names = NA,
+            qmethod = "double")
+
+
