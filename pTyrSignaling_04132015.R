@@ -38,15 +38,14 @@ non_intensity_cols <- c("Sample.ID", "Family_ID","Analytic_ID","Status")
 
 #retrieve column indices for each titleprefix
 
-prefixindices1<-grep(paste0("^",titleprefixes[1],"\\."),colnames(ptyr))
-prefixindices2<-grep(paste0("^",titleprefixes[2],"\\."),colnames(ptyr))
-prefixindices3<-grep(paste0("^",titleprefixes[3],"\\."),colnames(ptyr))
+#prefixindices1<-grep(paste0("^",titleprefixes[1],"\\."),colnames(ptyr))
+#prefixindices2<-grep(paste0("^",titleprefixes[2],"\\."),colnames(ptyr))
+#prefixindices3<-grep(paste0("^",titleprefixes[3],"\\."),colnames(ptyr))
 
+prefixindices=c()
+for (pre in 1:length(titleprefixes)){
+  prefixindices<-c(prefixindices,grep(paste0("^",titleprefixes[pre],"\\."),colnames(ptyr)))
+}
+prefixindices
 longptyr<-melt(setDT(ptyr), id.vars = c("Sample.ID", "Family_ID","Analytic_ID","Status"), measure.vars =list(c(prefixindices1),c(prefixindices2),c(prefixindices3)) ,value.name=c("Int_n_Bk_n_A","Int_n_Bk", "Int_n_A_n_Bk"), variable.name='Gel')
 View(longptyr)
-#prefixindices=c()
-#for (pre in 1:length(titleprefixes)){
-#  prefixindices<-c(grep(paste0("^",titleprefixes[pre],"\\."),colnames(ptyr)))
-#}
-#prefixindices
-
